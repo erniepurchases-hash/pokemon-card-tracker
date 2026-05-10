@@ -81,7 +81,7 @@ export default function CardForm({ card, onClose }: Props) {
       seller: nn(form.seller),
       sale_date: form.status === 'sold' ? nn(form.sale_date) : null,
       sale_price: form.status === 'sold' ? nf(form.sale_price) : null,
-      grading_fee: form.status === 'sold' ? nf(form.grading_fee) : null,
+      grading_fee: nf(form.grading_fee),
       sold_to: form.status === 'sold' ? nn(form.sold_to) : null,
       sale_payment_method: form.status === 'sold' ? nn(form.sale_payment_method) : null,
       platform: form.status === 'sold' ? nn(form.platform) : null,
@@ -203,6 +203,16 @@ export default function CardForm({ card, onClose }: Props) {
                   placeholder="e.g. Local shop"
                 />
               </div>
+              <div>
+                <label className={labelCls}>Grading Fee ($)</label>
+                <input
+                  type="number" min="0" step="0.01"
+                  className={inputCls}
+                  value={form.grading_fee}
+                  onChange={e => set('grading_fee', e.target.value)}
+                  placeholder="0.00"
+                />
+              </div>
             </div>
             {totalPreview && (
               <p className="text-xs text-gray-500 mt-2">
@@ -232,16 +242,6 @@ export default function CardForm({ card, onClose }: Props) {
                     className={inputCls}
                     value={form.sale_price}
                     onChange={e => set('sale_price', e.target.value)}
-                    placeholder="0.00"
-                  />
-                </div>
-                <div>
-                  <label className={labelCls}>Grading Fee ($)</label>
-                  <input
-                    type="number" min="0" step="0.01"
-                    className={inputCls}
-                    value={form.grading_fee}
-                    onChange={e => set('grading_fee', e.target.value)}
                     placeholder="0.00"
                   />
                 </div>
