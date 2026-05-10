@@ -101,15 +101,16 @@ export default function CardTable({ cards, onEdit, onDelete }: Props) {
               </th>
 
               {/* Scrollable columns */}
-              {SCROLL_COLS.map(col => (
+              {SCROLL_COLS.map((col, i) => (
                 <th
-                  key={col.key}
+                  key={`${col.key}-${i}`}
                   onClick={() => toggleSort(col.key)}
                   className={`${thBase} ${col.align || 'text-left'}`}
                 >
                   {col.label} {sortIcon(col.key)}
                 </th>
               ))}
+              <th className={`${thBase} text-right`}>% Profit</th>
 
               <th className="px-4 py-3 bg-gray-800" />
             </tr>
@@ -158,6 +159,15 @@ export default function CardTable({ cards, onEdit, onDelete }: Props) {
                     :                          'text-red-400'
                   }`}>
                     {fmt$(card.net_profit)}
+                  </td>
+                  <td className={`px-4 py-3 text-right font-semibold ${
+                    card.net_profit == null || card.total_cost == null ? 'text-gray-600'
+                    : card.net_profit >= 0 ? 'text-green-400'
+                    : 'text-red-400'
+                  }`}>
+                    {card.net_profit != null && card.total_cost
+                      ? `${((card.net_profit / card.total_cost) * 100).toFixed(1)}%`
+                      : '—'}
                   </td>
                   <td className="px-4 py-3 text-center">
                     <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${
