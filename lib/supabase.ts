@@ -1,8 +1,8 @@
 import { createClient } from '@supabase/supabase-js'
 
 export const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL ?? 'http://localhost',
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? 'placeholder'
+  'https://ahqlcahkgzulxroqtday.supabase.co',
+  'sb_publishable_7Y_AB0_7kB59hOLrDXcD0g_kZA6F0Mi'
 )
 
 export type Card = {
