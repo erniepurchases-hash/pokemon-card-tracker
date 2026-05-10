@@ -20,6 +20,7 @@ export type Card = {
   grading_fee: number | null
   other_costs: number | null
   sold_to: string | null
+  sale_payment_method: string | null
   platform: string | null
   net_profit: number | null
   status: 'in_stock' | 'sold'

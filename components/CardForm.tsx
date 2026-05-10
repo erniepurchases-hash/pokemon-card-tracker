@@ -20,6 +20,7 @@ type FormData = {
   sale_price: string
   grading_fee: string
   sold_to: string
+  sale_payment_method: string
   platform: string
   status: 'in_stock' | 'sold'
   notes: string
@@ -44,6 +45,7 @@ export default function CardForm({ card, onClose }: Props) {
     sale_price: card?.sale_price != null ? String(card.sale_price) : '',
     grading_fee: card?.grading_fee != null ? String(card.grading_fee) : '',
     sold_to: card?.sold_to ?? '',
+    sale_payment_method: card?.sale_payment_method ?? '',
     platform: card?.platform ?? '',
     status: card?.status ?? 'in_stock',
     notes: card?.notes ?? '',
@@ -81,6 +83,7 @@ export default function CardForm({ card, onClose }: Props) {
       sale_price: form.status === 'sold' ? nf(form.sale_price) : null,
       grading_fee: form.status === 'sold' ? nf(form.grading_fee) : null,
       sold_to: form.status === 'sold' ? nn(form.sold_to) : null,
+      sale_payment_method: form.status === 'sold' ? nn(form.sale_payment_method) : null,
       platform: form.status === 'sold' ? nn(form.platform) : null,
       status: form.status,
       notes: nn(form.notes),
@@ -250,6 +253,19 @@ export default function CardForm({ card, onClose }: Props) {
                     onChange={e => set('sold_to', e.target.value)}
                     placeholder="e.g. Instagram buyer"
                   />
+                </div>
+                <div>
+                  <label className={labelCls}>Payment Method</label>
+                  <input
+                    list="sale-payment-methods"
+                    className={inputCls}
+                    value={form.sale_payment_method}
+                    onChange={e => set('sale_payment_method', e.target.value)}
+                    placeholder="e.g. PayPal"
+                  />
+                  <datalist id="sale-payment-methods">
+                    {PAYMENT_METHODS.map(m => <option key={m} value={m} />)}
+                  </datalist>
                 </div>
                 <div className="col-span-2">
                   <label className={labelCls}>Platform Sold On</label>
