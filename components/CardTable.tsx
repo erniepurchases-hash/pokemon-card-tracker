@@ -7,6 +7,9 @@ type Props = {
   cards: Card[]
   onEdit: (card: Card) => void
   onDelete: (id: string) => void
+  selectedIds: Set<string>
+  onToggleSelect: (id: string) => void
+  onSelectAll: () => void
 }
 
 type SortKey = keyof Card
@@ -35,7 +38,7 @@ const SCROLL_COLS: { key: SortKey; label: string; align?: string }[] = [
   { key: 'notes',                   label: 'Notes'                            },
 ]
 
-export default function CardTable({ cards, onEdit, onDelete }: Props) {
+export default function CardTable({ cards, onEdit, onDelete, selectedIds, onToggleSelect, onSelectAll }: Props) {
   const [sort, setSort] = useState<{ key: SortKey; dir: SortDir }>({
     key: 'purchase_date',
     dir: 'desc',
@@ -84,6 +87,15 @@ export default function CardTable({ cards, onEdit, onDelete }: Props) {
         <table className="w-full text-sm whitespace-nowrap">
           <thead>
             <tr className="border-b border-gray-800 bg-gray-800">
+              {/* Checkbox */}
+              <th className="px-3 py-3 w-10 bg-gray-800">
+                <input
+                  type="checkbox"
+                  className="rounded border-gray-600 bg-gray-700 accent-blue-500 cursor-pointer"
+                  checked={selectedIds.size === cards.length && cards.length > 0}
+                  onChange={onSelectAll}
+                />
+              </th>
               {/* Sticky col 1: Buy Date */}
               <th
                 className={`${thSticky} left-0 text-left ${BUY_DATE_W}`}
@@ -124,6 +136,15 @@ export default function CardTable({ cards, onEdit, onDelete }: Props) {
               return (
                 <tr key={card.id} className="hover:bg-gray-800 transition-colors group">
 
+                  {/* Checkbox */}
+                  <td className="px-3 py-3 w-10">
+                    <input
+                      type="checkbox"
+                      className="rounded border-gray-600 bg-gray-700 accent-blue-500 cursor-pointer"
+                      checked={selectedIds.has(card.id)}
+                      onChange={() => onToggleSelect(card.id)}
+                    />
+                  </td>
                   {/* Sticky col 1: Buy Date */}
                   <td className={`${tdSticky} left-0 text-gray-400 ${BUY_DATE_W}`}>
                     {fmtDate(card.purchase_date)}
