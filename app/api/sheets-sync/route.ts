@@ -26,6 +26,10 @@ function str(s: unknown): string | null {
   return v || null
 }
 
+export async function GET() {
+  return NextResponse.json({ ok: true, message: 'sheets-sync endpoint is live' })
+}
+
 export async function POST(req: NextRequest) {
   const body = await req.json()
 
